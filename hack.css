@@ -1,0 +1,108 @@
+@charset "utf-8";
+/* CSS Document */
+
+.redButton{
+ background:url("images/red.png") repeat !important;
+
+ color:#FFF !important;
+	
+	}
+
+.greenButton
+
+{
+	
+ background:url("images/green.png") repeat !important;
+ color:#FFF !important;
+
+}
+
+.ui-icon-ic-invoice:after {
+	background-image: url("images/in_icon.png") !important;
+	background-size: 18px 18px;
+}
+
+.blueButton
+
+{
+	
+ background:#0B5480!important;
+border-color:#1f1f1f;
+color:#FFFFFF !important;
+text-shadow:0 1px 0 #111 !important;
+font-weight:normal !important;
+}
+
+.orangeButton
+
+{
+	
+background:#CB781D !important;
+color:#FFFFFF !important;
+font-size: 18px !important;
+font-weight:normal !important;
+}
+
+.grayButton
+
+{
+	
+background:#333333 !important;
+color:#FFFFFF !important;
+font-size: 18px !important;
+font-family:"Bookman Old Style";
+font-weight:inherit !important;
+}
+
+.wineButton
+
+{
+	
+ background:#107BBC !important;
+
+border-color:#1f1f1f;
+color:#FFFFFF !important;
+text-shadow:0 1px 0 #111 !important;
+font-weight:normal !important;
+}
+
+.headerButton {
+    float: left;
+    margin-right: 5px!important;
+}
+
+.custom-size-flipswitch.ui-flipswitch .ui-btn.ui-flipswitch-on {
+    text-indent: -5.9em;
+}
+.custom-size-flipswitch.ui-flipswitch .ui-flipswitch-off {
+    text-indent: 0.5em;
+}
+/* Custom widths are needed because the length of custom labels differs from
+   the length of the standard labels */
+.custom-size-flipswitch.ui-flipswitch {
+    width: 8.875em;
+}
+.custom-size-flipswitch.ui-flipswitch.ui-flipswitch-active {
+    padding-left: 7em;
+    width: 1.875em;
+}
+@media (min-width: 28em) {
+    /*Repeated from rule .ui-flipswitch above*/
+    .ui-field-contain > label + .custom-size-flipswitch.ui-flipswitch {
+        width: 1.875em;
+    }
+}
+
+.ul_class
+
+{}
+
+.error
+{
+	
+	color:#FF0000;
+	font-size:15px !important;
+	font-weight: bold !important;
+	text-align:center !important;
+	
+}
