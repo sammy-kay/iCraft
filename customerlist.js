@@ -160,7 +160,8 @@ if (myLen>0)
 
 {
 
-$.mobile.changePage("#customerEditExist", { role: "dialog", transition: "flip"});
+//$.mobile.changePage("#customerEditExist", { role: "dialog", transition: "flip"});
+$( "#customerEditExist" ).popup( "open" );
 
 console.log("I FOUND ONE");
 

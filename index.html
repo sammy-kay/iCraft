@@ -6,8 +6,8 @@
 <title>InvoiceCraft</title>
 <link href="jquery.mobile-1.4.5.min.css" rel="stylesheet" type="text/css"/>
 <link rel="stylesheet" href="hack.css"/>
-<link rel="stylesheet" href="themes/jquery.mobile.icons.min.css"/>
-<!--<link rel="stylesheet" href="theme-classic.css"/>!-->
+<!--<link rel="stylesheet" href="themes/jquery.mobile.icons.min.css"/>
+<link rel="stylesheet" href="theme-classic.css"/>!-->
 <script src="jquery-1.11.1.min.js" type="text/javascript"></script>
 <script src="jquery.mobile-1.4.5.min.js" type="text/javascript"></script>
 <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
@@ -16,6 +16,8 @@
 <script type="text/javascript" charset="utf-8" src="custom.js"></script>
 <script type="text/javascript" charset="utf-8" src="customerlist.js"></script>
 <script type="text/javascript" charset="utf-8" src="newCustomer.js"></script>
+<script type="text/javascript" charset="utf-8" src="items.js"></script>
+<script type="text/javascript" charset="utf-8" src="deleteitems.js"></script>
 
 <style type="text/css">              
     @media all{
@@ -118,6 +120,19 @@
         
         </form>		
 	</div></div>
+	<!-- Invalid login dialog !-->
+
+<div data-role="popup" id="invalidLogin" data-dialog="true">
+
+  <div data-role="header" data-theme="b">
+    <h1>Login Error</h1>
+  </div>
+  <div data-role="main" class="ui-content">
+<center><p><b><font color="red">Your username or password is incorrect</font></b></p></center>
+</div>
+
+<a href="#loginPage" data-rel="back" class="ui-btn ui-shadow ui-btn-b ui-corner-all ui-btn-a">Close</a>
+</div>
 </div>
 
 <!--home page form!-->
@@ -129,7 +144,7 @@
     <a href="#mypanel" class="ui-btn ui-shadow ui-icon-bars ui-btn-icon-notext ui-corner-all ui-btn-b" id="sidebar">No Text</a> 
     
 		<h1>Invoice Craft</h1>
-<a href="#Logout" data-transition="flip" class="ui-btn ui-shadow ui-icon-power ui-btn-icon-notext ui-corner-all ui-btn-b">Up</a>        
+<a id="logout_button" data-transition="flip" class="ui-btn ui-shadow ui-icon-power ui-btn-icon-notext ui-corner-all ui-btn-b">Up</a>        
 	</div></div>
 	
 	
@@ -138,12 +153,12 @@
 <div data-demo-html="true">
 				<div class="ui-grid-a">
 	<div class="ui-block-a"><a href=""  class="blueButton ui-btn ui-shadow ui-corner-all ui-icon-ic-invoice ui-btn-icon-bottom">Invoices</a></div>
-    <div class="ui-block-b"><a href="#customerpage" data-transition="slide" class="blueButton ui-btn ui-shadow ui-corner-all ui-icon-ic-invoice ui-btn-icon-bottom">Clients</a></div>
+    <div class="ui-block-b"><a href="#customerpage" data-transition="slide" class="blueButton ui-btn ui-shadow ui-corner-all ui-icon-ic-invoice ui-btn-icon-bottom">Customers</a></div>
 				</div><!-- /grid-b -->
 			</div>
 			
 <div data-demo-html="true">
-<a href="" class="ui-btn-b ui-shadow ui-corner-all ui-btn ui-icon-ic-invoice ui-btn-icon-left">Items</a></div>
+<a href="#itemsPage" data-transition="slide" class="grayButton ui-btn ui-shadow ui-corner-all ui-btn ui-icon-ic-invoice ui-btn-icon-left">Items</a></div>
 
 <div class="ui-grid-a">
     <div class="ui-block-a"><a href="" class="wineButton ui-btn ui-shadow ui-corner-all ui-icon-ic-invoice ui-btn-icon-bottom">Payments</a></div>
@@ -152,7 +167,7 @@
 </div>
 
 <div data-demo-html="true">
-<a href="" class="ui-btn ui-shadow ui-corner-all ui-shadow-icon  ui-icon-grid ui-btn-icon-right ui-btn-b">Reports</a>
+<a href="" class="grayButton ui-btn ui-shadow ui-corner-all ui-shadow-icon  ui-icon-grid ui-btn-icon-right">Reports</a>
 
 </div>
 
@@ -160,9 +175,9 @@
 	<div data-role="footer" data-position="fixed" data-theme="b">
     <div data-role="navbar">
       <ul>
-        <li><a href="#" data-icon="gear" class="">Settings</a></li>
+        <li><a href="#settings" data-transition="slide" data-icon="gear" class="">Settings</a></li>
         <li><a href="#" data-icon="mail">Feedback</a></li>
-        <li><a href="#customerMenu" data-rel="popup" data-transition="pop" data-icon="info">Help</a></li>
+        <li><a href="" data-rel="popup" data-transition="pop" data-icon="info">Help</a></li>
       </ul>
     </div>
   </div>
@@ -171,14 +186,12 @@
     <p>PANEL HERE</p>
 </div>
 
-</div>
-
 
 <!-- Logout Page!-->
-<div data-role="page" id="Logout" data-dialog="true">
+<div data-role="popup" id="Logout" data-dialog="true" data-dismissible="false">
 
   <div data-role="header" data-theme="b">
-    <h1>Error</h1>
+    <h1>Logout</h1>
   </div>
   <div data-role="main" class="ui-content">
 <center><p><b>Logging out of Invoice Craft means you will have to sign in again the next time you want to use Invoice Crafrt.</b></p>
@@ -228,7 +241,7 @@
 <div data-demo-html="true">
 	<div data-role="header" data-theme="b">
     <a href="#customerpage" data-transition="slide" data-direction="reverse" class="ui-btn ui-btn-b ui-icon-back ui-btn-icon-notext ui-corner-all">No Text</a> 
-		<h1> Register New Client </h1>
+		<h1> Register New Customer </h1>
 	</div>
 	
 	<div data-role="content">	
@@ -264,48 +277,21 @@
         
         </form>		
 	</div></div>
-</div>
+	
+	<!-- Customer Exist!-->
 
-<!-- Invalid login dialog !-->
-
-<div data-role="page" id="invalidLogin" data-dialog="true">
-
-  <div data-role="header" data-theme="b">
-    <h1>Login Error</h1>
-  </div>
-  <div data-role="main" class="ui-content">
-<center><p><b><font color="red">Your username or password is incorrect</font></b></p></center>
-</div>
-
-<a href="#loginPage" data-rel="back" class="ui-btn ui-shadow ui-btn-b ui-corner-all ui-btn-a">Close</a>
-</div>
-
-<!-- Customer Exist!-->
-
-<div data-role="page" id="customerExist" data-dialog="true">
+<div data-role="popup" id="customerExist" data-dialog="true">
 
   <div data-role="header" data-theme="b">
     <h1>Error</h1>
   </div>
   <div data-role="main" class="ui-content">
-<center><p><b><font color="red">client name currently exist on your client list</font> </b></p></center>
+<center><p><b><font color="red">client name currently exist on your customer list</font> </b></p></center>
 </div>
 
 <a href="#customerRegistration" data-rel="back" class="ui-btn ui-shadow ui-btn-b ui-corner-all ui-btn-a">Close</a>
 </div>
-
-<!--- Customer Edit Exist!-->
-
-<div data-role="page" id="customerEditExist" data-dialog="true">
-
-  <div data-role="header" data-theme="b">
-    <h1>Error</h1>
-  </div>
-  <div data-role="main" class="ui-content">
-<center><p><b><font color="red">The new name entered currently exist on your client list</font> </b></p></center>
-</div>
-
-<a href="#customerEdit" data-rel="back" class="ui-btn ui-shadow ui-btn-b ui-corner-all ui-btn-a">Close</a>
+	
 </div>
 
 <!--Customer Details $ Edit!-->
@@ -314,7 +300,7 @@
 <div data-demo-html="true">
 	<div data-role="header" data-theme="b">
     <a href="#customerpage" data-transition="slide" data-direction="reverse" class="ui-btn ui-btn-b ui-icon-back ui-btn-icon-notext ui-corner-all">No Text</a> 
-		<h1> Edit Client Info. </h1>
+		<h1> Edit Customer Info. </h1>
 		<a onclick="editText();" data-transition="slide" data-direction="reverse" class="ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-corner-all">No Text</a>
 		
 	</div>
@@ -361,7 +347,287 @@
         
         </form>		
 	</div></div>
+	
+	<!--- Customer Edit Exist!-->
+
+<div data-role="popup" id="customerEditExist" data-dialog="true">
+
+  <div data-role="header" data-theme="b">
+    <h1>Error</h1>
+  </div>
+  <div data-role="main" class="ui-content">
+<center><p><b><font color="red">The new name entered currently exist on your customer list</font> </b></p></center>
 </div>
+
+<a href="#customerEdit" data-rel="back" class="ui-btn ui-shadow ui-btn-b ui-corner-all ui-btn-a">Close</a>
+</div>
+	
+</div>
+
+<!-- Items Page!-->
+
+<div data-role="page" id="itemsPage">
+	<div data-role="header" data-theme="b" style="margin-top:10px;">
+	<a href="#homePage" data-transition="slide" data-direction="reverse" class="ui-btn ui-shadow ui-shadow-icon ui-icon-home ui-btn-icon-notext ui-corner-all ui-btn-b"></a>
+    <h1>Items</h1>
+    <div class="ui-btn-right">
+        <a href="#itemRegistration" data-transition="slide" class="ui-btn ui-shadow ui-shadow-icon ui-icon-plus ui-btn-icon-notext ui-corner-all ui-btn-b"></a>
+    </div>
+</div>
+    
+<div data-role="content">
+     <ul id="ItemsList" class="touch" data-autodividers="true" data-divider-theme="b" data-filter="true" data-filter-theme="b" data-filter-placeholder="Search items..." data-inset="true" data-split-icon="delete">
+    </ul>
+  </div>  
+  <!--DELETE by SWIPE!-->
+
+ <div id="confirm" class="ui-content" data-role="popup" data-theme="a" data-dismissible="false" data-overlay-theme="b">
+
+        <div align="center">
+	        <p id="question">Are you sure you want to delete:</p>
+                <a id="yes" class="ui-btn ui-corner-all ui-mini ui-btn-b" data-rel="back">Yes</a>
+    
+                <a id="cancel" class="ui-btn ui-corner-all ui-mini ui-btn-b" data-rel="back" data-transition="flow">Cancel</a>
+            </div>
+        </div>
+  </div>
+
+<!-- New Items Page!-->
+
+<div data-role="page" id="itemRegistration">
+<div data-demo-html="true">
+	<div data-role="header" data-theme="b">
+    <a href="#itemsPage" data-transition="slide" data-direction="reverse" class="ui-btn ui-btn-b ui-icon-back ui-btn-icon-notext ui-corner-all">No Text</a> 
+		<h1> Register New Item </h1>
+	</div>
+	
+	<div data-role="content">	
+		
+		<div class="error"></div>
+		
+		<form name="ItemsForm">
+        
+        		<div class="ui-field-contain">    
+          <input id="iname" name="iname" type="text" placeholder="Name" data-clear-btn="true" >         </div> 
+                               
+        <div class="ui-field-contain">  
+          <input data-clear-btn="true" id="idesc" name="idesc" type="text" placeholder="Item Description">            
+        </div>
+        
+		<div class="ui-field-contain">    
+          <input id="iprice" data-clear-btn="true" name="iprice" type="number" placeholder="Price">         
+          </div>  
+          
+<div class="ui-field-contain">
+                <label for="itype">Item Type:</label>
+                <select name="itype" id="itype">
+                    <option value="Goods">Goods</option>
+                    <option value="Services">Services</option>
+                </select>
+            </div>
+          
+       
+        <div align="right">
+        <a ID="save_items" data-role="button" class="ui-btn ui-btn-b ui-icon-plus ui-corner-all ui-btn-inline ui-btn-icon-right">Save</a>
+        
+        </div>      
+        
+        </form>		
+	</div></div>
+	
+	<!-- Items Exist Error!-->
+
+<div data-role="popup" id="itemExist" data-dialog="true">
+
+  <div data-role="header" data-theme="b">
+    <h1>Error</h1>
+  </div>
+  <div data-role="main" class="ui-content">
+<center><p><b><font color="red">item currently exist on your list</font> </b></p></center>
+</div>
+
+<a href="#itemRegistration" data-rel="back" class="ui-btn ui-shadow ui-btn-b ui-corner-all ui-btn-a">Close</a>
+</div>
+	
+</div>
+
+<!-- Edit Items Page!-->
+
+<div data-role="page" id="itemsEdit">
+<div data-demo-html="true">
+	<div data-role="header" data-theme="b">
+    <a href="#itemsPage" data-transition="slide" data-direction="reverse" class="ui-btn ui-btn-b ui-icon-back ui-btn-icon-notext ui-corner-all">No Text</a> 
+		<h1> Edit Item </h1>
+				<a onclick="editTextItems();" class="ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-corner-all">No Text</a>
+	</div>
+	
+	<div data-role="content">	
+		
+		<div class="error"></div>
+		
+		<form name="EditItemsForm">
+        
+        		<div class="ui-field-contain">    
+          <input disabled="disabled" id="einame" name="einame" type="text" placeholder="Name" data-clear-btn="true" >         
+          </div> 
+                               
+        <div class="ui-field-contain">  
+          <input disabled="disabled" data-clear-btn="true" id="eidesc" name="eidesc" type="text" placeholder="Item Description">            
+        </div>
+        
+		<div class="ui-field-contain">    
+          <input disabled="disabled" id="eiprice" data-clear-btn="true" name="eiprice" type="number" placeholder="Price">         
+          </div>  
+          
+<div class="ui-field-contain">
+                <label for="eitype">Item Type:</label>
+                <select name="eitype" id="eitype">
+                    <option value="Goods">Goods</option>
+                    <option value="Services">Services</option>
+                </select>
+            </div>
+          
+       
+        <div align="right">
+        <a ID="update_items" data-role="button" class="ui-btn ui-btn-b ui-icon-check ui-corner-all ui-btn-inline ui-btn-icon-right">Save</a>
+        
+        </div>      
+        
+        </form>		
+	</div></div>
+	
+	<!--- Items Edit Exist!-->
+
+<div data-role="popup" id="itemsEditExist" data-dialog="true">
+
+  <div data-role="header" data-theme="b">
+    <h1>Error</h1>
+  </div>
+  <div data-role="main" class="ui-content">
+<center><p><b><font color="red">The new name entered currently exist on your items list</font> </b></p></center>
+</div>
+
+<a href="#itemsEdit" data-rel="back" class="ui-btn ui-shadow ui-btn-b ui-corner-all ui-btn-a">Close</a>
+</div>
+	
+</div>
+
+<!-- Settings Page !-->
+<div data-role="page" id="settings">
+<div data-demo-html="true">
+	<div data-role="header" data-theme="b">
+    <a href="#homePage" data-transition="slide" data-direction="reverse" class="ui-btn ui-btn-b ui-icon-home ui-btn-icon-notext ui-corner-all">No Text</a> 
+		<h1> Settings </h1>
+	<a onclick="" class="ui-btn ui-btn-b ui-icon-edit ui-btn-icon-notext ui-corner-all">No Text</a>
+	</div>
+	
+	<div data-role="content">	
+		
+		<div class="error"></div>
+		
+		<div id="wills" align="center" class="ui-field-contain">
+		
+		<div id="preview" align="center">
+			</div>
+			
+			<div align="center">
+
+<a ID="chooseFile" data-role="button" class="ui-btn ui-btn-b ui-icon-camera ui-corner-all ui-btn-inline ui-btn-icon-right">Company Logo</a>
+
+</div></div>
+
+<div class="hiddenfile">
+			  <input type="file"  data-clear-btn="false" name="image" accept="image/*" capture>
+			</div>
+			
+			<form name="settingsForm">
+			
+			<legend><h3>Company Details</h3></legend>
+			
+	<div class="ui-field-contain">    
+          <input id="sname" name="sname" type="text" placeholder="Your Company Name" data-clear-btn="true" >         
+          </div>
+          
+          	<div class="ui-field-contain">    
+          <textarea id="saddress" name="saddress" type="text" placeholder="Your Company Address" data-clear-btn="true" ></textarea>         
+          </div>
+          
+          	<div class="ui-field-contain">    
+          <input id="semail" name="semail" type="text" placeholder="Your Company Email" data-clear-btn="true" >         
+          </div>
+          
+          	<div class="ui-field-contain">    
+          <input id="sphone" name="sphone" type="number" placeholder="Your Company Phone" data-clear-btn="true" >         
+          </div>
+          
+          <legend><h3>PayPal, Tax, Currency</h3></legend>
+          
+          	<div class="ui-field-contain">    
+          <input id="spaypal" name="spaypal" type="text" placeholder="Enter PayPay Details" data-clear-btn="true" >         
+          </div>
+          
+          <div class="ui-field-contain">    
+          <input id="stax" name="tax" type="number" placeholder="Enter Tax Rate" data-clear-btn="true" >         
+          </div>
+          
+          <div class="ui-field-contain">    
+          <input id="taxname" name="taxname" type="text" placeholder="Tax Name" data-clear-btn="true" >         
+          </div>
+          
+          
+          
+          </form>		
+			
+</div>
+</div>
+</div>
+
+ <script>
+    $('#settings').on('pageinit', function(){
+		$("#chooseFile").click(function(e){
+			e.preventDefault();
+			$("input[type=file]").trigger("click");
+		});
+		$("input[type=file]").change(function(){
+			var file = $("input[type=file]")[0].files[0];            
+			$("#preview").empty();
+			displayAsImage3(file, "preview");
+			
+			$info = $("#info");
+			$info.empty();
+			if (file && file.name) {
+				$info.append("<li>name:<span>" + file.name + "</span></li>");
+			}
+			if (file && file.type) {
+				$info.append("<li>size:<span>" + file.type + " bytes</span></li>");
+			}
+			if (file && file.size) {
+				$info.append("<li>size:<span>" + file.size + " bytes</span></li>");
+			}
+			if (file && file.lastModifiedDate) {
+				$info.append("<li>lastModifiedDate:<span>" + file.lastModifiedDate + " bytes</span></li>");
+			}
+			$info.listview("refresh");
+		});
+    });
+
+    function displayAsImage3(file, containerid) {
+		if (typeof FileReader !== "undefined") {
+			var container = document.getElementById(containerid),
+			    img = document.createElement("img"),
+			    reader;
+			container.appendChild(img);
+			reader = new FileReader();
+			reader.onload = (function (theImg) {
+				return function (evt) {
+					theImg.src = evt.target.result;
+				};
+			}(img));
+			reader.readAsDataURL(file);
+		}
+	}
+	
+    </script>
 
 </body>
 </html>

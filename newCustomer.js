@@ -71,7 +71,9 @@ if (myLen>0)
 
 {
 
-$.mobile.changePage("#customerExist", { role: "dialog", transition: "flip"});
+//$.mobile.changePage("#customerExist", { role: "dialog", transition: "flip"});
+
+$( "#customerExist" ).popup( "open" );
 
 console.log("I FOUND ONE");
 

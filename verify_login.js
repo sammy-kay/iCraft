@@ -5,13 +5,13 @@ var db = window.openDatabase("Invoice_Craft", "1.0", "InvoiceCraft  Database", 2
 	function onDeviceReady()
 	
 	{
-		db.transaction(populateDB1, errorCB1, successCB1);
+		db.transaction(populateDB1, errorCB1, successCB12);
 		
 		//document.addEventListener('backbutton', onBack, false);
 	}
 	
-	/*
 	
+	/*
 	function onBack(){
         //If the current page is index page then exit other wise navigate to index page
         if($.mobile.activePage.is('#homePage')){
@@ -21,7 +21,9 @@ var db = window.openDatabase("Invoice_Craft", "1.0", "InvoiceCraft  Database", 2
             
         }
     }
-    */ 
+    
+    */
+    
 	
 	function populateDB1(tx) 
 	{
@@ -38,7 +40,7 @@ var db = window.openDatabase("Invoice_Craft", "1.0", "InvoiceCraft  Database", 2
     }
  
     //function will be called when process succeed
-    function successCB1() {
+    function successCB12() {
         console.log("CONNECTION MADE");
     }
     
@@ -74,7 +76,8 @@ db.transaction(function(tx1){
            // $.mobile.changePage("#homePage", {transition: "slide"});
             
           }else{
-            $.mobile.changePage("#invalidLogin", { role: "dialog", transition: "flip"});
+            //$.mobile.changePage("#invalidLogin", { role: "dialog", transition: "flip"});
+            $( "#invalidLogin" ).popup( "open" );
           }
     });
 		

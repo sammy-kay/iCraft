@@ -6,13 +6,14 @@ var db = window.openDatabase("Invoice_Craft", "1.0", "InvoiceCraft  Database", 2
 	
 	{
 		db.transaction(populateFind, errorFind, loginFound);
+		document.getElementById('logout_button').addEventListener('click', function(){$( "#Logout" ).popup( "open" );}, false);
 		
 	}
 	
 	function populateFind(tx) 
 	{
         tx.executeSql('CREATE TABLE IF NOT EXISTS iLogin (id INTEGER PRIMARY KEY AUTOINCREMENT, FIRSTNAME TEXT NOT NULL, LASTNAME TEXT NOT NULL, Username TEXT NOT NULL, Password TEXT NOT NULL, Status TEXT NOT NULL)');
-    //tx.executeSql('Drop table iLogin');
+    //tx.executeSql('Delete from Items where id >5');
     }
 	
     
