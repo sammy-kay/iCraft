@@ -9,7 +9,7 @@ $( document ).on( "pagecreate", "#itemsPage", function() {
  });
 	
     // Swipe to remove list item
-    $( document ).on( "swipeleft swiperight", "#ItemsList li", function( event ) {
+    $( document ).on( "swipeleft", "#ItemsList li", function( event ) {
         var listitem = $( this ),
             // These are the classnames used for the CSS transition
             dir = event.type === "swipeleft" ? "left" : "right",

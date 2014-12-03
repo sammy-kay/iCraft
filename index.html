@@ -528,11 +528,14 @@
 		<div id="wills" align="center" class="ui-field-contain">
 		
 		<div id="preview" align="center">
+			
+			<img style="display:none;width:100%;" id="largeImage" src="" />
+			
 			</div>
 			
 			<div align="center">
 
-<a ID="chooseFile" data-role="button" class="ui-btn ui-btn-b ui-icon-camera ui-corner-all ui-btn-inline ui-btn-icon-right">Company Logo</a>
+<a onclick="getPhoto(pictureSource.PHOTOLIBRARY);" data-role="button" class="ui-btn ui-btn-b ui-icon-camera ui-corner-all ui-btn-inline ui-btn-icon-right">Company Logo</a>
 
 </div></div>
 
@@ -582,52 +585,69 @@
 </div>
 </div>
 
- <script>
-    $('#settings').on('pageinit', function(){
-		$("#chooseFile").click(function(e){
-			e.preventDefault();
-			$("input[type=file]").trigger("click");
-		});
-		$("input[type=file]").change(function(){
-			var file = $("input[type=file]")[0].files[0];            
-			$("#preview").empty();
-			displayAsImage3(file, "preview");
-			
-			$info = $("#info");
-			$info.empty();
-			if (file && file.name) {
-				$info.append("<li>name:<span>" + file.name + "</span></li>");
-			}
-			if (file && file.type) {
-				$info.append("<li>size:<span>" + file.type + " bytes</span></li>");
-			}
-			if (file && file.size) {
-				$info.append("<li>size:<span>" + file.size + " bytes</span></li>");
-			}
-			if (file && file.lastModifiedDate) {
-				$info.append("<li>lastModifiedDate:<span>" + file.lastModifiedDate + " bytes</span></li>");
-			}
-			$info.listview("refresh");
-		});
-    });
+<script type="text/javascript" charset="utf-8">
+ var pictureSource; // picture source
+ var destinationType; // sets the format of returned value 
 
-    function displayAsImage3(file, containerid) {
-		if (typeof FileReader !== "undefined") {
-			var container = document.getElementById(containerid),
-			    img = document.createElement("img"),
-			    reader;
-			container.appendChild(img);
-			reader = new FileReader();
-			reader.onload = (function (theImg) {
-				return function (evt) {
-					theImg.src = evt.target.result;
-				};
-			}(img));
-			reader.readAsDataURL(file);
-		}
-	}
-	
-    </script>
+ // Wait for Cordova to connect with the device
+ document.addEventListener("deviceready",onDeviceReady,false);
+
+ // Cordova is ready to be used!
+ function onDeviceReady() {
+   pictureSource=navigator.camera.PictureSourceType;
+   destinationType=navigator.camera.DestinationType;
+ }
+
+ // Take picture using device camera and retrieve image as base64-encoded string
+ function capturePhoto() {
+   navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 50, allowEdit : true,
+   destinationType: destinationType.DATA_URL });
+ }
+
+ // Called if something bad happens. 
+ function onFail(message) {
+   alert('Failed because: ' + message);
+ }
+
+ function onPhotoDataSuccess(imageData) {
+   // Uncomment to view the base64 encoded image data
+   // console.log(imageData);
+
+   // Get image handle
+   var largeImage = document.getElementById('largeImage');
+
+   // Unhide image elements
+   largeImage.style.display = 'block';
+
+   // Show the captured photo
+   // The inline CSS rules are used to resize the image
+   largeImage.src = "data:image/jpeg;base64," + imageData;
+ }
+
+ // Called when a photo is successfully retrieved
+ function onPhotoURISuccess(imageURI) {
+   // Uncomment to view the image file URI 
+   // console.log(imageURI);
+
+   // Get image handle
+   var largeImage = document.getElementById('largeImage');
+
+   // Unhide image elements
+   largeImage.style.display = 'block';
+
+   // Show the captured photo
+   // The inline CSS rules are used to resize the image
+   largeImage.src = imageURI;
+ }
+ // A button will call this function to retrieve photos from the album
+ function getPhoto(source) {
+
+   // Retrieve image file location from specified source
+   navigator.camera.getPicture(onPhotoURISuccess, onFail, { quality: 50, 
+     destinationType: destinationType.FILE_URI,
+     sourceType: source });
+ }
+</script>
 
 </body>
 </html>
