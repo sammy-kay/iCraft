@@ -19,6 +19,7 @@
 <script type="text/javascript" charset="utf-8" src="newCustomer.js"></script>
 <script type="text/javascript" charset="utf-8" src="items.js"></script>
 <script type="text/javascript" charset="utf-8" src="deleteitems.js"></script>
+<script type="text/javascript" charset="utf-8" src="settings.js"></script>
 
 <style type="text/css">              
     @media all{
@@ -521,19 +522,16 @@
 		
 		<div id="preview" align="center">
 			
-			<img style="height:150px;" id="myImage" src="" />
+			<img style="height:150px;" id="myImage" />
 			
 			</div>
 			
 			<div align="center">
 				
 				
-				<a id="upfile1" class="ui-btn ui-btn-b ui-icon-camera ui-corner-all ui-btn-inline ui-btn-icon-right">Company Logo</a>
-				<input id="takePicture" type="file"  data-clear-btn="false" style="display:none" data-theme="b" name="image" accept="image/*" capture>
-
-
-</div></div>
-			
+				<a id="loadPicture" class="ui-btn ui-btn-b ui-icon-camera ui-corner-all ui-btn-inline ui-btn-icon-right">Company Logo</a>
+				</div>
+			</div>
 			<form name="settingsForm">
 			
 			<legend><h3>Company Details</h3></legend>
@@ -574,26 +572,6 @@
 			
 </div>
 </div>
-
-<script>
-	
-	$("#upfile1").click(function () {
-    $("#takePicture").trigger('click');
-});
-	
-	$("#takePicture").on("change",gotPic);
-	
-	console.log("I AM ");
-	
-	function gotPic(event) {
-        if(event.target.files.length == 1 && 
-           event.target.files[0].type.indexOf("image/") == 0) {
-            $("#myImage").attr("src",URL.createObjectURL(event.target.files[0]));
-        }
-	}
-	
-</script>
-
 </div>
 
 </body>
