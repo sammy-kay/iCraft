@@ -6,6 +6,7 @@
 <title>InvoiceCraft</title>
 <link href="jquery.mobile-1.4.5.min.css" rel="stylesheet" type="text/css"/>
 <link rel="stylesheet" href="hack.css"/>
+
 <!--<link rel="stylesheet" href="themes/jquery.mobile.icons.min.css"/>
 <link rel="stylesheet" href="theme-classic.css"/>!-->
 <script src="jquery-1.11.1.min.js" type="text/javascript"></script>
@@ -310,17 +311,7 @@
 		<div class="error"></div>
 		
 		<form name="CustomerEForm">
-        
-                <div align="right"> 
-<fieldset data-role="controlgroup" data-theme="b" data-type="horizontal">
-
-        <input type="radio" name="radio-choice-t-6" id="radio-choice-t-6a" value="Active" checked="checked">
-        <label for="radio-choice-t-6a">Active</label>
-        <input type="radio" name="radio-choice-t-6" id="radio-choice-t-6b" value="Inactive" disabled="disabled">
-        <label for="radio-choice-t-6b">Active</label>
-    </fieldset>
-
-</div>
+       
         
         		<div class="ui-field-contain">    
           <input id="ecname" disabled="disabled" data-clear-btn="true" name="ecname" type="text" placeholder="Company Name" value="" >         </div> 
@@ -515,44 +506,6 @@
 <!-- Settings Page !-->
 <div data-role="page" id="settings">
 	
-	<script>
-    $('#settings').on('pageinit', function(){
-		$("#chooseFile").click(function(e){
-			e.preventDefault();
-			$("input[type=file]").trigger("click");
-		});
-		$("input[type=file]").change(function(){
-			var file = $("input[type=file]")[0].files[0];            
-			$("#preview").empty();
-			displayAsImage3(file, "preview");
-			
-		});
-    });
-
-    function displayAsImage3(file, containerid) {
-		if (typeof FileReader !== "undefined") {
-			var container = document.getElementById(containerid),
-			    img = document.createElement("img"),
-			    reader;
-			container.appendChild(img);
-			reader = new FileReader();
-			reader.onload = (function (theImg) {
-				return function (evt) {
-					theImg.src = evt.target.result;
-				};
-			}(img));
-			reader.readAsDataURL(file);
-		}
-	}
-	
-	function errorH(err)
-	{
-		
-		console.log("Error loading image: "+err);
-	}
-	
-    </script>
-	
 <div data-demo-html="true">
 	<div data-role="header" data-theme="b">
     <a href="#homePage" data-transition="slide" data-direction="reverse" class="ui-btn ui-btn-b ui-icon-home ui-btn-icon-notext ui-corner-all">No Text</a> 
@@ -567,17 +520,19 @@
 		<div id="wills" align="center" class="ui-field-contain">
 		
 		<div id="preview" align="center">
+			
+			<img style="height:150px;" id="myImage" src="" />
+			
 			</div>
 			
 			<div align="center">
+				
+				
+				<a id="upfile1" class="ui-btn ui-btn-b ui-icon-camera ui-corner-all ui-btn-inline ui-btn-icon-right">Company Logo</a>
+				<input id="takePicture" type="file"  data-clear-btn="false" style="display:none" data-theme="b" name="image" accept="image/*" capture>
 
-<a ID="chooseFile" data-role="button" class="ui-btn ui-btn-b ui-icon-camera ui-corner-all ui-btn-inline ui-btn-icon-right">Company Logo</a>
 
 </div></div>
-
-<div class="hiddenfile">
-			  <input type="file"  data-clear-btn="false" name="image" accept="image/*" capture>
-			</div>
 			
 			<form name="settingsForm">
 			
@@ -619,6 +574,26 @@
 			
 </div>
 </div>
+
+<script>
+	
+	$("#upfile1").click(function () {
+    $("#takePicture").trigger('click');
+});
+	
+	$("#takePicture").on("change",gotPic);
+	
+	console.log("I AM ");
+	
+	function gotPic(event) {
+        if(event.target.files.length == 1 && 
+           event.target.files[0].type.indexOf("image/") == 0) {
+            $("#myImage").attr("src",URL.createObjectURL(event.target.files[0]));
+        }
+	}
+	
+</script>
+
 </div>
 
 </body>
